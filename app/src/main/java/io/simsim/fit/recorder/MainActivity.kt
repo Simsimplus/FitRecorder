@@ -4,14 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
+import io.simsim.fit.recorder.data.model.TimelineItem
+import io.simsim.fit.recorder.ui.TimeLineScreen
 import io.simsim.fit.recorder.ui.theme.FitRecorderTheme
+import java.time.LocalDateTime
+import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -24,22 +28,19 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    TimeLineScreen(
+                        modifier = Modifier.fillMaxSize(),
+                        timelines = List(15) {
+                            TimelineItem(
+                                LocalDateTime.now(),
+                                UUID.randomUUID().toString().take(6)
+                            )
+                        }
+                    ) {
+                        Text(modifier = Modifier.padding(16.dp), text = it)
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    FitRecorderTheme {
-        Greeting("Android")
     }
 }

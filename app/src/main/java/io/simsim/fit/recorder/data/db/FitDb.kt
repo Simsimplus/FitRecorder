@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import io.simsim.fit.recorder.data.model.FitRecord
 import io.simsim.fit.recorder.utils.SingletonHolder
 
 @Database(
-    entities = [],
+    entities = [
+        FitRecord::class
+    ],
     version = 1,
     exportSchema = true
 )
