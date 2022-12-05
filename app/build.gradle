@@ -99,6 +99,8 @@ dependencies {
     // Optional - Integration with LiveData
     implementation 'androidx.compose.runtime:runtime-livedata'
 
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+
     // room
     def room_version = "2.4.3"
 

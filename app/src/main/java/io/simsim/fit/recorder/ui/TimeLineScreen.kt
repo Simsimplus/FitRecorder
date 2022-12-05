@@ -27,7 +27,7 @@ fun <ITEM> TimeLineScreen(
     val circleRadius = with(LocalDensity.current) {
         8.dp.toPx()
     }
-    val circleColor = MaterialTheme.colorScheme.primary
+    val markerColor = MaterialTheme.colorScheme.primary
     LazyColumn(
         modifier = modifier,
     ) {
@@ -40,21 +40,23 @@ fun <ITEM> TimeLineScreen(
                 ) {
                     Canvas(modifier = Modifier.size(h)) {
                         if (index != 0) {
-                            drawDashLine(
-                                color = Color.LightGray,
+                            drawLine(
+                                color = markerColor,
                                 start = Offset(center.x, 0f),
                                 end = Offset(center.x, center.y - circleRadius),
+                                strokeWidth = 10f
                             )
                         }
                         drawCircle(
-                            color = circleColor,
+                            color = markerColor,
                             radius = circleRadius
                         )
                         if (index != timelines.lastIndex) {
-                            drawDashLine(
-                                color = Color.LightGray,
+                            drawLine(
+                                color = markerColor,
                                 start = Offset(center.x, center.y + circleRadius),
                                 end = Offset(center.x, center.y * 2),
+                                strokeWidth = 10f
                             )
                         }
                     }
