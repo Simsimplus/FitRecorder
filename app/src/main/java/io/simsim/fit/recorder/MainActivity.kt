@@ -2,15 +2,11 @@ package io.simsim.fit.recorder
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
@@ -19,25 +15,25 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
-import io.simsim.fit.recorder.ui.theme.FitRecorderTheme
+import io.simsim.fit.recorder.ui.widget.LockerView
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            FitRecorderTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    DownloadProgressMask(Modifier.sizeIn(maxHeight = 60.dp, maxWidth = 60.dp))
-                }
-            }
-        }
+//        setContent {
+//            FitRecorderTheme {
+//                // A surface container using the 'background' color from the theme
+//                Surface(
+//                    modifier = Modifier.fillMaxSize(),
+//                    color = MaterialTheme.colorScheme.background
+//                ) {
+//                    AndroidView(modifier = Modifier.fillMaxSize(),factory = {LockerView(it)})
+//                }
+//            }
+//        }
+        setContentView(LockerView(this))
     }
 }
 
