@@ -2,39 +2,61 @@ package io.simsim.fit.recorder
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
-import io.simsim.fit.recorder.ui.widget.LockerView
+import io.simsim.fit.recorder.ui.theme.FitRecorderTheme
+import io.simsim.fit.recorder.ui.widget.WaterMarkBox
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContent {
-//            FitRecorderTheme {
-//                // A surface container using the 'background' color from the theme
-//                Surface(
-//                    modifier = Modifier.fillMaxSize(),
-//                    color = MaterialTheme.colorScheme.background
-//                ) {
-//                    AndroidView(modifier = Modifier.fillMaxSize(),factory = {LockerView(it)})
-//                }
-//            }
-//        }
-        setContentView(LockerView(this))
+        setContent {
+            FitRecorderTheme {
+                var watermark by remember {
+                    mutableStateOf(getRandomString())
+                }
+                WaterMarkBox(watermark = watermark) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        OutlinedButton(onClick = {
+                            watermark = getRandomString()
+                        }) {
+                            Text(text = "show bottom sheet")
+                        }
+                    }
+
+
+                }
+            }
+        }
     }
+}
+
+fun getRandomString(length: Int = 8): String {
+    val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+    return (1..length)
+        .map { allowedChars.random() }
+        .joinToString("")
 }
 
 @Preview(showBackground = true)
@@ -45,7 +67,6 @@ fun DownloadProgressMask(
     @FloatRange(from = 0.0, to = 1.1) percent: Float = 0.5f,
 ) {
     BoxWithConstraints(modifier) {
-        Image(painter = painterResource(id = R.mipmap.ic_launcher), contentDescription = "")
         val outerRadius = with(LocalDensity.current) {
             maxWidth.div(2f).toPx() - 10f
         }
