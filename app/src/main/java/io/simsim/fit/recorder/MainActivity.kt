@@ -1,14 +1,12 @@
 package io.simsim.fit.recorder
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -19,7 +17,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
 import dagger.hilt.android.AndroidEntryPoint
+import io.simsim.fit.recorder.ui.AnotherActivity
 import io.simsim.fit.recorder.ui.theme.FitRecorderTheme
 import io.simsim.fit.recorder.ui.widget.WaterMarkBox
 
@@ -32,24 +34,49 @@ class MainActivity : ComponentActivity() {
                 var watermark by remember {
                     mutableStateOf(getRandomString())
                 }
+                var isFwPlaying by remember {
+                    mutableStateOf(false)
+                }
                 WaterMarkBox(watermark = watermark) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        OutlinedButton(onClick = {
-                            watermark = getRandomString()
-                        }) {
-                            Text(text = "show bottom sheet")
+                    Box {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            OutlinedButton(onClick = {
+                                watermark = getRandomString()
+                            }) {
+                                Text(text = "show bottom sheet")
+                            }
+                            OutlinedButton(onClick = {
+                                isFwPlaying = true
+                            }) {
+                                Text(text = "shoot firework")
+                            }
+                            OutlinedButton(onClick = {
+                                startActivity(
+                                    Intent(
+                                        this@MainActivity,
+                                        AnotherActivity::class.java
+                                    )
+                                )
+                            }) {
+                                Text(text = "goto another activity")
+                            }
                         }
+                        FW(isFwPlaying)
                     }
-
-
                 }
             }
         }
     }
+}
+
+@Composable
+fun FW(isPlaying: Boolean = false) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.fw))
+    LottieAnimation(composition, isPlaying = isPlaying)
 }
 
 fun getRandomString(length: Int = 8): String {
